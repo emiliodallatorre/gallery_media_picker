@@ -39,11 +39,7 @@ class GalleryFunctions {
         builder: (context) => GestureDetector(
               behavior: HitTestBehavior.translucent,
               onTap: () => close(null),
-              child: OverlayDropDown(
-                  height: height!,
-                  close: close,
-                  animationController: animationController,
-                  builder: builder),
+              child: OverlayDropDown(height: height!, close: close, animationController: animationController, builder: builder),
             ));
     Overlay.of(context)!.insert(entry);
     animationController.animateTo(1);
@@ -54,15 +50,12 @@ class GalleryFunctions {
   }
 
   static onPickMax(GalleryMediaPickerController provider) {
-    provider.onPickMax
-        .addListener(() => showToast("Already pick ${provider.max} items."));
+    provider.onPickMax.addListener(() => showToast("Already pick ${provider.max} items."));
   }
 
   static getPermission(setState, GalleryMediaPickerController provider) async {
     /// request for device permission
-    var result = await PhotoManager.requestPermissionExtend(
-        requestOption: const PermissionRequestOption(
-            iosAccessLevel: IosAccessLevel.readWrite));
+    var result = await PhotoManager.requestPermissionExtend(requestOption: const PermissionRequestOption(iosAccessLevel: IosAccessLevel.readWrite));
     if (result.isAuth) {
       /// load "recent" album
       provider.setAssetCount();
@@ -82,7 +75,7 @@ class GalleryFunctions {
   }
 
   static _refreshPathList(setState, GalleryMediaPickerController provider) {
-    PhotoManager.getAssetPathList(type: RequestType.all).then((pathList) {
+    PhotoManager.getAssetPathList(type: RequestType.image).then((pathList) {
       /// don't delete setState
       setState(() {
         provider.resetPathList(pathList);
