@@ -76,11 +76,7 @@ class GalleryMediaPicker extends StatefulWidget {
   /// selected Check Background Color
   final Color selectedCheckBackgroundColor;
 
-  /// load video
-  final bool onlyVideos;
-
-  /// load images
-  final bool onlyImages;
+  final RequestType requestType;
 
   /// image quality thumbnail
   final int? thumbnailQuality;
@@ -108,8 +104,7 @@ class GalleryMediaPicker extends StatefulWidget {
       this.selectedCheckColor = Colors.white,
       this.thumbnailBoxFix = BoxFit.cover,
       this.selectedCheckBackgroundColor = Colors.white,
-      this.onlyImages = false,
-      this.onlyVideos = false,
+      this.requestType = RequestType.common,
       this.thumbnailQuality})
       : super(key: key);
 
@@ -129,7 +124,7 @@ class _GalleryMediaPickerState extends State<GalleryMediaPicker> {
 
   /// get photo manager permission
   _getPermission() {
-    GalleryFunctions.getPermission(setState, provider);
+    GalleryFunctions.getPermission(setState, provider, widget.requestType);
     GalleryFunctions.onPickMax(provider);
   }
 

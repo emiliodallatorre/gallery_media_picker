@@ -41,7 +41,7 @@ class GalleryFunctions {
               onTap: () => close(null),
               child: OverlayDropDown(height: height!, close: close, animationController: animationController, builder: builder),
             ));
-    Overlay.of(context)!.insert(entry);
+    Overlay.of(context).insert(entry);
     animationController.animateTo(1);
     return FeatureController(
       completer,
@@ -53,7 +53,7 @@ class GalleryFunctions {
     provider.onPickMax.addListener(() => showToast("Already pick ${provider.max} items."));
   }
 
-  static getPermission(setState, GalleryMediaPickerController provider) async {
+  static getPermission(setState, GalleryMediaPickerController provider, final RequestType requestType) async {
     /// request for device permission
     var result = await PhotoManager.requestPermissionExtend(requestOption: const PermissionRequestOption(iosAccessLevel: IosAccessLevel.readWrite));
     if (result.isAuth) {
@@ -61,11 +61,11 @@ class GalleryFunctions {
       provider.setAssetCount();
       PhotoManager.startChangeNotify();
       PhotoManager.addChangeCallback((value) {
-        _refreshPathList(setState, provider);
+        _refreshPathList(setState, provider, requestType);
       });
 
       if (provider.pathList.isEmpty) {
-        _refreshPathList(setState, provider);
+        _refreshPathList(setState, provider, requestType);
       }
     } else {
       /// if result is fail, you can call `PhotoManager.openSetting();`
@@ -74,8 +74,8 @@ class GalleryFunctions {
     }
   }
 
-  static _refreshPathList(setState, GalleryMediaPickerController provider) {
-    PhotoManager.getAssetPathList(type: RequestType.image).then((pathList) {
+  static _refreshPathList(setState, GalleryMediaPickerController provider, final RequestType requestType) {
+    PhotoManager.getAssetPathList(type: requestType).then((pathList) {
       /// don't delete setState
       setState(() {
         provider.resetPathList(pathList);

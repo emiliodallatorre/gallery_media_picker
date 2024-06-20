@@ -8,12 +8,15 @@ class CoverThumbnail extends StatefulWidget {
   final int thumbnailQuality;
   final double thumbnailScale;
   final BoxFit thumbnailFit;
-  const CoverThumbnail(
-      {Key? key,
-      this.thumbnailQuality = 120,
-      this.thumbnailScale = 1.0,
-      this.thumbnailFit = BoxFit.cover})
-      : super(key: key);
+  final RequestType requestType;
+
+  const CoverThumbnail({
+    Key? key,
+    required this.requestType,
+    this.thumbnailQuality = 120,
+    this.thumbnailScale = 1.0,
+    this.thumbnailFit = BoxFit.cover,
+  }) : super(key: key);
 
   @override
   State<CoverThumbnail> createState() => _CoverThumbnailState();
@@ -25,7 +28,7 @@ class _CoverThumbnailState extends State<CoverThumbnail> {
 
   @override
   void initState() {
-    GalleryFunctions.getPermission(setState, provider);
+    GalleryFunctions.getPermission(setState, provider, widget.requestType);
     super.initState();
   }
 
