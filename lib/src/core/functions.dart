@@ -70,6 +70,8 @@ class GalleryFunctions {
         name: 'GalleryMediaPicker');
     var result = await PhotoManager.requestPermissionExtend(
         requestOption: const PermissionRequestOption(
+            androidPermission: AndroidPermission(
+                type: RequestType.common, mediaLocation: true),
             iosAccessLevel: IosAccessLevel.readWrite));
     if (result.isAuth) {
       /// load "recent" album
